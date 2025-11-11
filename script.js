@@ -1,40 +1,55 @@
-const myLibrary=[];
+const { createElement } = require("react");
 
-function Book(title,author,pages,read){
-    this.id= crypto.randomUUID();
-    this.title=title;
-    this.author=author;
-    this.pages=pages;
-    this.read=read;
+const myLibray=[];
+
+function Book(title,author,pages,read,like){
+  this.id=crypto.randomUUID();
+  this.title=title;
+  this.author=author;
+  this.pages=pages;
+  this.read=read;
+  this.like=like;
 }
 
-Book.prototype.toggleRead= function(){
-    this.read=!this.read;
+Book.prototype.toggleRead=function(){
+  this.read=!this.read;
 }
 
-function addBookToLibrary(title,author,pages,read){
-  const newBook= new Book(title,author,pages,read);
-  myLibrary.push(newBook);
+Book.prototype.toggleLike= function (){
+  this.like=!this.like;
 }
 
-addBookToLibrary("Revive your heart","Nouman Ali Khan",155,true);
+function addBook(){
+     myLibray.push(book);
+}
+
+function removeBook(){
+    const index= myLibrary.findIndex( (book)=>book.id === id);
+    if(index !==-1){
+      myLibray.splice(index,1);
+    }
+}
 
 
 function displayBooks(){
-  const libraryContainer = document.querySelector("library");
-  libraryContainer.innerHTML="";
+     const library= document.getElementById("library");
+     library.innerHTML="";
 
-  myLibrary.forEach(book=>{
-    const bookCard= document.createElement("div");
-    bookCard.dataset.id=book.id;
+     myLibray.forEach((book)=>{
 
-    bookCard.innerHTML=`
-    <h3>${book.title}<h3>
-    <p>Author: ${book.author}</p>
-    <p> Pages: ${book.pages}</p>
-    <p> Read: ${book.read ? "Yes" : "No"}</p>
-    <button class="toggle-read">Toggle Read</button>
-    <button class="remove-book"> Remove</button>
-    `;
-  })
+     const booCard= createElement("div");
+     bookCard.classList.add("book-card");
+
+     bookCard.innerHTML=`
+      <h3>Title: ${book.title}</h3>
+      <h3>Author: ${book.author}</h3>
+      <h3>Pages: ${book.pages}</h3>
+      <button class="read" data-id="${book.id}">Read</button>
+      <button class="like" data-id="${book.id}">Liked</button>
+      <button class="remove" data-id="${book.id}">Remove</button>
+     `
+       library.appendChild("book-card");
+     });
+
+     attachEventListeners();
 }
